@@ -1,0 +1,7 @@
+import Link from 'next/link';
+import Image from 'next/image';
+import { ArrowUpRight, Scan } from 'lucide-react';
+import type { Project } from '@/lib/projects';
+export function Header(){return <header className="topbar"><Link href="/" className="wordmark"><Scan size={28} strokeWidth={1}/><span>Working index</span></Link><nav aria-label="Main navigation"><Link href="/#work">Work</Link><Link href="/#about">About</Link><Link href="/#contact">Contact</Link></nav></header>}
+export function Actions({project,story=true}:{project:Project;story?:boolean}){return <div className="actions"><a href={project.live}>Try product <ArrowUpRight aria-hidden size={18}/></a>{story&&<Link href={`/work/${project.slug}`}>Read story <ArrowUpRight aria-hidden size={18}/></Link>}<a href={project.code}>View code <ArrowUpRight aria-hidden size={18}/></a></div>}
+export function Preview({project,priority=false}:{project:Project;priority?:boolean}){return <figure className="preview"><Image src={project.media} alt={project.alt} width={1280} height={720} priority={priority} sizes="(max-width: 899px) 100vw, 45vw"/><figcaption>Live product capture · {project.verified} · static preview</figcaption></figure>}

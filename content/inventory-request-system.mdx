@@ -1,0 +1,37 @@
+## The problem
+
+A stock count is only one part of inventory work. Employees need to request items; someone must approve the request; fulfillment must change the available stock without losing the history of what happened.
+
+Inventory Request System brings those steps into an operational interface, with a public demonstration of employee and administrator perspectives.
+
+## My role
+
+I’m developing the product workflow and implementation, including the connection between requests and stock. The repository retains the project’s historical attribution and documents its demo context.
+
+## Decisions that shape the product
+
+### Show availability in context
+
+The inventory table exposes stock, reserved quantities, stock health and active demand together. A number becomes more useful when the person acting on it can understand what is already committed.
+
+### Treat fulfillment as one operation
+
+The request service implements transactional stock deduction. A request’s completion and its inventory effect belong together; partial updates would leave the next operator with conflicting information. The repository includes focused fulfillment integration tests.
+
+### Separate a role demonstration from access control
+
+The public role selector makes employee and administrator journeys inspectable. It is deliberately a demonstration, not proof of production authentication or authorization.
+
+<ol className="workflow" aria-label="Inventory request workflow"><li><span>01</span>Request items</li><li><span>02</span>Review approval</li><li><span>03</span>Fulfill and update stock</li></ol>
+
+## What is verified
+
+On 3 November 2026, the deployed inventory view loaded a populated table, category and stock filters, pagination, reserved quantities and stock-health indicators. The image above is a live capture. Transactional fulfillment and its integration tests can be inspected in the source.
+
+## Current boundaries
+
+This is a portfolio demonstration with simulated roles and seeded data, not a company production deployment. This review did not mutate shared demo stock or repeat the complete approval-to-fulfillment journey. No operational adoption, uptime or concurrency benchmark is claimed.
+
+## Keeping it useful
+
+The complete operational journey is being improved in a separate release. This story will be updated after the deployed request, approval, fulfillment and history paths are verified together. Source changes and test evidence remain inspectable in the repository.

@@ -1,0 +1,37 @@
+## The problem
+
+A shared meal ends, but the work continues: someone reconstructs the bill, asks who joined which purchase, and checks whether a transfer actually arrived. A total alone does not explain what each person owes.
+
+SplitFlow puts the group, expenses and payment review in one place. The current public prototype lets visitors inspect a populated group without creating an account.
+
+## My role
+
+I’m developing the product experience and implementation around a simple question: can everyone understand the agreement before money changes hands? The repository records the implementation and the prototype’s boundaries.
+
+## Decisions that shape the product
+
+### Keep the arithmetic separate from interpretation
+
+Interpreting an expense can be ambiguous; adding amounts should not be. The design separates assistance with input from explicit expense data and calculation. AI is optional assistance, rather than an authority on what somebody owes.
+
+### A claimed payment is not a confirmed payment
+
+The dashboard distinguishes a payment claim awaiting review from a settled balance. That separation matters because a participant’s intent and the organizer’s confirmation are different events.
+
+### Make the first visit useful
+
+A seeded group gives a visitor something concrete to inspect. Switching between demonstration profiles makes the roles understandable, but it is not authentication.
+
+<ol className="workflow" aria-label="Expense workflow"><li><span>01</span>Record an expense</li><li><span>02</span>Review the split</li><li><span>03</span>Review payment claims</li></ol>
+
+## What is verified
+
+On 3 November 2026, the deployed dashboard rendered its seeded group, participants, expense totals and a pending payment claim. The screenshot above is from that deployment. The repository documents the prototype architecture and limitations.
+
+## Current boundaries
+
+This is a local-state prototype, not a production financial service. It does not establish authenticated identities or durable shared records. This portfolio review did not validate a real multi-person settlement or payment transfer. No adoption or performance outcome is claimed.
+
+## Keeping it useful
+
+The next release is being developed separately. A durable shared journey and clear recovery behavior need to be verified before this story can describe them as shipped. The evidence date and product capture will be refreshed after that release is checked.

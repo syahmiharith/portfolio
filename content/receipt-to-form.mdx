@@ -1,0 +1,37 @@
+## The problem
+
+A receipt image is easy to collect and awkward to use. Someone still has to read the merchant, date and amounts, then check the result before it becomes a trustworthy record.
+
+Receipt-to-Form explores that handoff: use extraction to reduce transcription, while keeping the person responsible for reviewing the fields.
+
+## My role
+
+I’m developing and refining the receipt-review experience and its implementation. The repository preserves the project’s origin and attribution; this story describes the current work without claiming sole authorship of its history.
+
+## Decisions that shape the product
+
+### Treat extraction as a draft
+
+The product presents itself as human-reviewed extraction. Editable fields and validation are essential because a plausible-looking amount is not necessarily the amount on the receipt.
+
+### Make input constraints visible
+
+The deployed entry explains accepted image formats and upload limits before a person selects files. A useful boundary belongs at the point where it changes someone’s action.
+
+### Test predictable behavior separately
+
+The repository includes deterministic mocked tests for the review flow. That makes interface and validation regressions easier to reproduce without treating a variable model response as a fixed contract.
+
+<ol className="workflow" aria-label="Receipt review workflow"><li><span>01</span>Select receipt images</li><li><span>02</span>Extract draft fields</li><li><span>03</span>Review and correct</li></ol>
+
+## What is verified
+
+On 3 November 2026, the deployed upload entry loaded and showed JPG, PNG and WEBP support, with a five-file and 5 MB per-file limit. The screenshot is a capture of that live entry. Review and testing documentation are available in the repository.
+
+## Current boundaries
+
+This portfolio review did not complete a new live extraction-to-export run. Extraction quality, export completeness and persistence are not asserted here. Do not use the demo as a permanent receipt archive. No accuracy percentage or time-saving claim is published without a measured basis.
+
+## Keeping it useful
+
+The next product release is being developed separately around the complete review-to-output journey. Its export and recovery behavior will appear here only after the deployed path has been checked. The historical project attribution remains in the repository.

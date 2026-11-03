@@ -11,7 +11,9 @@
 
 ## Release
 
-The Vercel project is connected to the `portfolio` repository. Pull requests receive previews; production follows the production branch. Set `NEXT_PUBLIC_SITE_URL` to the stable production origin before building if it differs from the default. Check canonical metadata, sitemap and social image against that origin.
+The source repository is `syahmiharith/portfolio`. The initial Vercel release was uploaded through the authenticated Vercel connector because the GitHub integration could not access the new repository. Automatic push deployments are **not connected yet**. Until connected, deploy the reviewed source through Vercel and record its Git revision and deployment ID. Set `NEXT_PUBLIC_SITE_URL` to the stable production origin before building if it differs from the default. Check canonical metadata, sitemap and social image against that origin.
+
+Initial project: `prj_A7glZO2T9IRs20xtP7zHMLnknJH0`, team `syahmiharith`. Production alias: `https://portfolio-syahmiharith.vercel.app`. The initial deployment is SSO-protected; public access needs the owner's explicit approval to change protection to previews only. Do not treat a redirect to a login page as a successful smoke test.
 
 Run typecheck, lint, tests, production build and deployed smoke checks. Review desktop (1487×1058), tablet (768px), mobile (390px and 320px), keyboard focus, project hashes, Back, reduced motion, 404 and all three product actions. Capture the rendered portfolio and compare it with the accepted reference. Record actual outcomes in `design-qa.md`.
 

@@ -24,3 +24,7 @@ Deployment: `dpl_F6w3LzhrESiVR8geaoTnkhSggmXJ`.
 - Lint, type checking, unit tests and production build passed.
 
 Automatic Git deployments and the five-visitor comprehension study remain pending; neither blocks opening the current public release.
+
+Public release verification: final deployment READY; unauthenticated production smoke passed all four pages, fragments, sitemap, robots, social image and both 404 routes. GitHub Verify passed for `e0e4ab0`: https://github.com/syahmiharith/portfolio/actions/runs/41775018122.
+
+Lighthouse 13.6.0 on 2026-11-04T04:45:35.093Z: **97 performance / 100 accessibility**, LCP 2.3s, TBT 80ms, CLS 0. Public production URL; mobile emulation; simulated throttling, 4× CPU slowdown. This is a lab run, not a real-user guarantee.

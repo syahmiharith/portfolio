@@ -60,22 +60,22 @@ export default async function Story({
           <p>{p.subtitle}</p>
           <div className="story-meta">
             <span>{p.status}</span>
-            <span>Product design & development</span>
-            <span>Evidence checked {p.verified}</span>
           </div>
           <Actions project={p} story={false} />
         </div>
-        <Preview project={p} priority />
+        <Preview project={p} priority caption />
         <article className="prose">
           <Content />
-          <h2>Inspect the work</h2>
+          {p.evidence.some((e) => e.url !== `${p.code}#readme`) && <>
+          <h2>Engineering notes</h2>
           <ul>
-            {p.evidence.map((e) => (
+            {p.evidence.filter((e) => e.url !== `${p.code}#readme`).map((e) => (
               <li key={e.url}>
                 <a href={e.url}>{e.label}</a>
               </li>
             ))}
           </ul>
+          </>}
         </article>
         <Link className="next-work" href={`/work/${next.slug}`}>
           <span>{next.number}</span>

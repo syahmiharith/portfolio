@@ -1,4 +1,4 @@
-import { ArrowUpRight, ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Sidebar } from "@/components/navigation";
 import { Header, Actions, Preview } from "@/components/shared";
 import { projects, linkedin, github } from "@/lib/projects";
@@ -14,7 +14,6 @@ export default function Home() {
             <br />
             everyday.
           </h1>
-          <p>Shared expenses. Reviewed receipts. Reliable operations.</p>
         </section>
         <div className="projects">
           {projects.map((p, i) => (
@@ -27,8 +26,6 @@ export default function Home() {
               {i > 0 && (
                 <div className="chapter-rule">
                   <span>{p.number}</span>
-                  <span>{p.title}</span>
-                  <ArrowRight size={23} aria-hidden />
                 </div>
               )}
               <div className="project-grid">
@@ -44,7 +41,7 @@ export default function Home() {
           ))}
         </div>
         <section className="lower" aria-labelledby="contributions">
-          <h2 id="contributions">In good company.</h2>
+          <h2 id="contributions">Open source.</h2>
           <a
             className="contribution"
             href="https://github.com/career-ops-hq/career-ops/pull/41"
@@ -71,11 +68,10 @@ export default function Home() {
           </a>
         </section>
         <section className="lower about" id="about">
-          <h2>A little context.</h2>
+          <h2>About.</h2>
           <p>
-            I’m Zulsyahmi, a Computer Science student at Sungkyunkwan
-            University. I work across interfaces, application logic, and the
-            details that keep a product useful.
+            I build tools for everyday tasks, from the first sketch to the
+            details that keep them useful.
           </p>
           <div className="about-meta">
             <span>Computer Science · Sungkyunkwan University</span>

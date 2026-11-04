@@ -5,9 +5,8 @@ import type { Project } from "@/lib/projects";
 export function Header() {
   return (
     <header className="topbar">
-      <Link href="/" className="wordmark">
+      <Link href="/" className="wordmark" aria-label="Home">
         <Cpu size={28} strokeWidth={1} />
-        <span>Working index</span>
       </Link>
       <nav aria-label="Main navigation">
         <Link href="/#work">Work</Link>
@@ -43,9 +42,11 @@ export function Actions({
 export function Preview({
   project,
   priority = false,
+  caption = false,
 }: {
   project: Project;
   priority?: boolean;
+  caption?: boolean;
 }) {
   return (
     <figure className="preview">
@@ -58,9 +59,7 @@ export function Preview({
         loading={priority ? "eager" : "lazy"}
         sizes="(max-width: 899px) 100vw, 45vw"
       />
-      <figcaption>
-        Live product capture · {project.verified} · static preview
-      </figcaption>
+      {caption && <figcaption>Captured {project.verified}</figcaption>}
     </figure>
   );
 }

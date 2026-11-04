@@ -8,24 +8,31 @@ export function Sidebar({ current }: { current?: string }) {
   const art = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (current) return;
-    const observer = new IntersectionObserver(
-      () => {
-        let selected = projects[0].slug;
-        for (const project of projects) {
-          const section = document.getElementById(project.slug);
-          if (section && section.getBoundingClientRect().top <= innerHeight * 0.45) {
-            selected = project.slug;
-          }
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      let selected = projects[0].slug;
+      for (const project of projects) {
+        const section = document.getElementById(project.slug);
+        if (section && section.getBoundingClientRect().top <= innerHeight * 0.45) {
+          selected = project.slug;
         }
-        setActive(selected);
-      },
-      { rootMargin: "-15% 0px -55% 0px", threshold: 0 },
-    );
-    projects.forEach((p) => {
-      const el = document.getElementById(p.slug);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
+      }
+      setActive(selected);
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    schedule();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    window.addEventListener("pageshow", schedule);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      window.removeEventListener("pageshow", schedule);
+    };
   }, [current]);
   useEffect(() => {
     const el = art.current;
@@ -79,7 +86,7 @@ export function Sidebar({ current }: { current?: string }) {
           <a
             key={p.slug}
             href={current ? `/#${p.slug}` : `#${p.slug}`}
-            aria-current={active === p.slug ? "location" : undefined}
+            aria-current={(current || active) === p.slug ? "location" : undefined}
           >
             <span>{p.number}</span>
             <span>{p.title}</span>

@@ -67,7 +67,7 @@ export default async function Story({
         <article className="prose">
           <Content />
           {p.evidence.some((e) => e.url !== `${p.code}#readme`) && <>
-          <h2>Engineering notes</h2>
+          <h2>Source evidence</h2>
           <ul>
             {p.evidence.filter((e) => e.url !== `${p.code}#readme`).map((e) => (
               <li key={e.url}>

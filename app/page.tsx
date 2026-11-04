@@ -69,10 +69,6 @@ export default function Home() {
         </section>
         <section className="lower about" id="about">
           <h2>About.</h2>
-          <p>
-            I build tools for everyday tasks, from the first sketch to the
-            details that keep them useful.
-          </p>
           <div className="about-meta">
             <span>Computer Science · Sungkyunkwan University</span>
             <span>Expected graduation · February 2027</span>
@@ -80,10 +76,10 @@ export default function Home() {
           </div>
         </section>
         <section className="lower contact" id="contact">
-          <h2>Have something in mind?</h2>
+          <h2>Let’s talk.</h2>
           <div className="contact-links">
             <a href={linkedin}>
-              Let’s talk on LinkedIn <ArrowUpRight size={23} />
+              LinkedIn <ArrowUpRight size={23} />
             </a>
             <a href={github}>
               GitHub <ArrowUpRight size={23} />

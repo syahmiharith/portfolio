@@ -1,47 +1,35 @@
 ## The problem
 
-A receipt image is easy to collect and awkward to use. Someone still has to read the merchant, date and amounts, then check the result before it becomes a trustworthy record.
-
-Receipt-to-Form explores that handoff: use extraction to reduce transcription, while keeping the person responsible for reviewing the fields.
+A receipt photo preserves the evidence, but someone still has to turn it into fields and correct transcription mistakes. Receipt-to-Form gives that review a place in the workflow.
 
 ## My role
 
-I’m developing and refining the receipt-review experience and its implementation. The repository preserves the project’s origin and attribution; this story describes the current work without claiming sole authorship of its history.
+Receipt review, validation and dependency maintenance. The repository retains the earlier project attribution.
 
-## Decisions that shape the product
+## Decisions
 
-### Treat extraction as a draft
+### Keep the image beside the correction
 
-The product presents itself as human-reviewed extraction. Editable fields and validation are essential because a plausible-looking amount is not necessarily the amount on the receipt.
+The review interface places the receipt beside editable fields. A person checking a total should be able to compare it with the source without switching contexts. The repository documents this review path; the portfolio capture shows the upload entry.
 
-### Make input constraints visible
+### Treat missing data as missing
 
-The deployed entry explains accepted image formats and upload limits before a person selects files. A useful boundary belongs at the point where it changes someone’s action.
+A missing amount stays null. Normalization turns absent provider fields into a low-confidence draft with review notes, rather than inventing a complete record. The schema tests also reject malformed line items.
 
-### Test predictable behavior separately
+### Separate model variability from regression checks
 
-The repository includes deterministic mocked tests for the review flow. That makes interface and validation regressions easier to reproduce without treating a variable model response as a fixed contract.
+Mocked extraction tests make interface and validation failures reproducible. A live extraction check answers a different question: whether the deployed model integration works. Passing one does not substitute for the other.
 
 <ol className="workflow" aria-label="Receipt review workflow">
-  <li>
-    <span>01</span>Select receipt images
-  </li>
-  <li>
-    <span>02</span>Extract draft fields
-  </li>
-  <li>
-    <span>03</span>Review and correct
-  </li>
+  <li><span>01</span>Upload receipt images</li>
+  <li><span>02</span>Extract draft fields</li>
+  <li><span>03</span>Compare and correct</li>
 </ol>
 
-## What is verified
+## Maintaining the data contract
 
-On 3 November 2026, the deployed upload entry loaded and showed JPG, PNG and WEBP support, with a five-file and 5 MB per-file limit. Review and testing documentation are available in the repository.
+A dependency update moved validation from Zod 3 to Zod 4. The same change added regression cases for nullable line items, omitted quantities, invalid values and unexpected provider fields. Updating the library included checking the receipt data it accepts and rejects.
 
 ## Current boundaries
 
-This portfolio review did not complete a new live extraction-to-export run. Extraction quality, export completeness and persistence are not asserted here. Do not use the demo as a permanent receipt archive.
-
-## Keeping it useful
-
-Next: verify the complete review-to-export journey, including recovery after an interrupted session.
+The deployed upload entry was checked on 3 November 2026; the dependency and test changes were reviewed on 4 November. A fresh live extraction-to-export run has not been verified for this portfolio. The demo is not a permanent receipt archive.

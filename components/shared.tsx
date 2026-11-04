@@ -1,13 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, Cpu } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import type { Project } from "@/lib/projects";
 export function Header() {
   return (
     <header className="topbar">
-      <Link href="/" className="wordmark" aria-label="Home">
-        <Cpu size={28} strokeWidth={1} />
-      </Link>
       <nav aria-label="Main navigation">
         <Link href="/#work">Work</Link>
         <Link href="/#about">About</Link>

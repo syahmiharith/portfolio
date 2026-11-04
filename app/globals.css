@@ -796,3 +796,5 @@ footer {
   .sidebar { padding-top: 24px; padding-bottom: 24px; gap: 12px; }
   .ribbon img { max-height: max(0px, calc(100dvh - 270px)); }
 }
+
+.topbar { justify-content: flex-end; }

@@ -1,47 +1,37 @@
 ## The problem
 
-A stock count is only one part of inventory work. Employees need to request items; someone must approve the request; fulfillment must change the available stock without losing the history of what happened.
-
-Inventory Request System brings those steps into an operational interface, with a public demonstration of employee and administrator perspectives.
+An approved request is a promise to supply something. Stock should change when the items are actually fulfilled, and the record needs to explain what happened if fulfillment fails.
 
 ## My role
 
-I’m developing the product workflow and implementation, including the connection between requests and stock. The repository retains the project’s historical attribution and documents its demo context.
+Request workflow, inventory interface and test setup. Historical project attribution remains in the repository.
 
-## Decisions that shape the product
+## Decisions
 
-### Show availability in context
+### Separate approval from fulfillment
 
-The inventory table exposes stock, reserved quantities, stock health and active demand together. A number becomes more useful when the person acting on it can understand what is already committed.
+Approval records the requested quantities without deducting or reserving stock. Fulfillment checks availability again. This allows demand to be approved while making the later stock check essential; approval alone does not guarantee supply.
 
-### Treat fulfillment as one operation
+### Commit the whole request together
 
-The request service implements transactional stock deduction. A request’s completion and its inventory effect belong together; partial updates would leave the next operator with conflicting information. The repository includes focused fulfillment integration tests.
+The fulfillment service updates the request, deducts its items and writes its audit entry inside one database transaction. If the second item is unavailable, the first deduction must roll back too.
 
-### Separate a role demonstration from access control
+The integration test makes that concrete: a request for three paper reams and nine ink units fails when only eight ink units remain. Both original stock counts must survive unchanged.
 
-The public role selector makes employee and administrator journeys inspectable. It is deliberately a demonstration, not proof of production authentication or authorization.
+### Show what the number means
 
-<ol className="workflow" aria-label="Inventory request workflow">
-  <li>
-    <span>01</span>Request items
-  </li>
-  <li>
-    <span>02</span>Review approval
-  </li>
-  <li>
-    <span>03</span>Fulfill and update stock
-  </li>
+The inventory table puts stock on hand, reserved quantities and stock-health indicators together. Operators can distinguish a physical count from what is available to fulfill.
+
+<ol className="workflow" aria-label="Inventory fulfillment workflow">
+  <li><span>01</span>Approve demand</li>
+  <li><span>02</span>Recheck available stock</li>
+  <li><span>03</span>Commit fulfillment or roll back</li>
 </ol>
 
-## What is verified
+## Keeping checks reproducible
 
-On 3 November 2026, the deployed inventory view loaded a populated table, category and stock filters, pagination, reserved quantities and stock-health indicators. Transactional fulfillment and its integration tests can be inspected in the source.
+The test suite covers insufficient stock, repeat fulfillment and partial-update rollback. CI provisions PostgreSQL, applies migrations and runs integration and browser checks. A maintenance change pins the runner to Ubuntu 24.04 for Playwright compatibility instead of following a moving OS image.
 
 ## Current boundaries
 
-This is a portfolio demonstration with simulated roles and seeded data, not a company production deployment. This review did not mutate shared demo stock or repeat the complete approval-to-fulfillment journey.
-
-## Keeping it useful
-
-Next: verify request, approval, fulfillment and stock history as one deployed journey.
+The deployed inventory view was checked on 3 November 2026; the service, tests and CI configuration were reviewed on 4 November. The public demo uses simulated roles and seeded data. This review did not change shared stock or verify a complete live approval-to-fulfillment run.

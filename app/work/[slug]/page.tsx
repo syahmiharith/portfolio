@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { projects } from "@/lib/projects";
+import { caseStudyStructuredData, serializeJsonLd } from "@/lib/seo";
 import { Sidebar } from "@/components/navigation";
 import { Header, Actions, Preview } from "@/components/shared";
 import SplitFlow from "@/content/splitflow.mdx";
@@ -26,16 +27,26 @@ export async function generateMetadata({
   const p = projects.find((p) => p.slug === slug);
   return p
     ? {
-        title: p.title,
-        description: p.subtitle,
+        title: p.seoTitle ?? `${p.title}: ${p.summary}`,
+        description: p.seoDescription ?? p.subtitle,
         alternates: { canonical: `/work/${slug}` },
         openGraph: {
-          title: p.title,
-          description: p.subtitle,
+          type: "article",
+          siteName: "Zulsyahmi Zulkefli",
+          locale: "en_US",
+          title: p.seoTitle ?? `${p.title}: ${p.summary}`,
+          description: p.seoDescription ?? p.subtitle,
+          images: [{ url: p.media, width: 1280, height: 720, alt: p.alt }],
           url: `/work/${slug}`,
         },
+        twitter: {
+          card: "summary_large_image",
+          title: p.seoTitle ?? p.title,
+          description: p.seoDescription ?? p.subtitle,
+          images: [p.media],
+        },
       }
-    : { title: "Not found" };
+    : { title: "Not found", robots: { index: false, follow: false } };
 }
 export default async function Story({
   params,
@@ -49,6 +60,12 @@ export default async function Story({
   const next = projects[(projects.indexOf(p) + 1) % projects.length];
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: serializeJsonLd(caseStudyStructuredData(p)),
+        }}
+      />
       <Sidebar current={slug} />
       <main id="main" tabIndex={-1} className="main story">
         <Header />
@@ -60,22 +77,27 @@ export default async function Story({
           <p>{p.subtitle}</p>
           <div className="story-meta">
             <span>{p.status}</span>
+            {p.role && <span>{p.role}</span>}
           </div>
           <Actions project={p} story={false} />
         </div>
         <Preview project={p} priority caption />
         <article className="prose">
           <Content />
-          {p.evidence.some((e) => e.url !== `${p.code}#readme`) && <>
-          <h2>Source evidence</h2>
-          <ul>
-            {p.evidence.filter((e) => e.url !== `${p.code}#readme`).map((e) => (
-              <li key={e.url}>
-                <a href={e.url}>{e.label}</a>
-              </li>
-            ))}
-          </ul>
-          </>}
+          {p.evidence.some((e) => e.url !== `${p.code}#readme`) && (
+            <>
+              <h2>Explore the implementation</h2>
+              <ul>
+                {p.evidence
+                  .filter((e) => e.url !== `${p.code}#readme`)
+                  .map((e) => (
+                    <li key={e.url}>
+                      <a href={e.url}>{e.label}</a>
+                    </li>
+                  ))}
+              </ul>
+            </>
+          )}
         </article>
         <Link className="next-work" href={`/work/${next.slug}`}>
           <span>{next.number}</span>

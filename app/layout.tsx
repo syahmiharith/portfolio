@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { siteUrl } from "@/lib/projects";
+import { siteDescription, siteTitle } from "@/lib/seo";
 const editorial = localFont({
   src: "../node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2",
   variable: "--font-editorial",
@@ -15,20 +16,29 @@ const body = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Zulsyahmi Zulkefli — Software for the everyday.",
+    default: siteTitle,
     template: "%s — Zulsyahmi Zulkefli",
   },
-  description:
-    "Selected software projects, the decisions behind them, and the work of keeping them useful.",
+  description: siteDescription,
   alternates: { canonical: "/" },
+  authors: [{ name: "Zulsyahmi Zulkefli", url: siteUrl }],
+  creator: "Zulsyahmi Zulkefli",
+  robots: { index: true, follow: true },
   openGraph: {
     type: "website",
     siteName: "Zulsyahmi Zulkefli",
-    title: "Software for the everyday.",
-    description: "Selected work by Zulsyahmi Zulkefli.",
+    title: siteTitle,
+    description: siteDescription,
+    url: siteUrl,
+    locale: "en_US",
     images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+    images: ["/opengraph-image"],
+  },
 };
 export default function RootLayout({
   children,

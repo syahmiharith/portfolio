@@ -12,7 +12,9 @@ test("every featured project has a unique route, real media, story and dated evi
     assert.equal(new URL(p.live).protocol, "https:");
     assert.match(
       readFileSync(`content/${p.slug}.mdx`, "utf8"),
-      /## Current boundaries/,
+      p.slug === "receipt-to-form"
+        ? /## What I designed and built/
+        : /## Current boundaries/,
     );
   }
 });

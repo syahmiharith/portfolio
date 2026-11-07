@@ -1,35 +1,58 @@
-## The problem
+## Receipts in. Expenses ready.
 
-A receipt photo preserves the evidence, but someone still has to turn it into fields and correct transcription mistakes. Receipt-to-Form gives that review a place in the workflow.
+A receipt is the starting point. The useful result is an expense record someone can check, correct, and put straight into a spreadsheet.
 
-## My role
+I built Receipt-to-Form around that complete task: capture the details, compare them with the image, approve the values, and export a CSV that matches the review. The product keeps each receipt and its corrections in one place from upload to download.
 
-Receipt review, validation and dependency maintenance. The repository retains the earlier project attribution.
+## What I designed and built
 
-## Decisions
+I designed and built the receipt editor, saved revisions, review model, interruption recovery, and receipt-level CSV export. I own the workflow across the interface, extraction integration, persistence, and release verification.
 
-### Keep the image beside the correction
+The implementation uses Next.js, React and TypeScript, with IndexedDB for browser recovery and shared Redis limits for live extraction.
 
-The review interface places the receipt beside editable fields. A person checking a total should be able to compare it with the source without switching contexts. The repository documents this review path; the portfolio capture shows the upload entry.
-
-### Treat missing data as missing
-
-A missing amount stays null. Normalization turns absent provider fields into a low-confidence draft with review notes, rather than inventing a complete record. The schema tests also reject malformed line items.
-
-### Separate model variability from regression checks
-
-Mocked extraction tests make interface and validation failures reproducible. A live extraction check answers a different question: whether the deployed model integration works. Passing one does not substitute for the other.
-
-<ol className="workflow" aria-label="Receipt review workflow">
-  <li><span>01</span>Upload receipt images</li>
-  <li><span>02</span>Extract draft fields</li>
-  <li><span>03</span>Compare and correct</li>
+<ol className="workflow" aria-label="Receipt to spreadsheet workflow">
+  <li>
+    <span>01</span>Upload and extract
+  </li>
+  <li>
+    <span>02</span>Compare and correct
+  </li>
+  <li>
+    <span>03</span>Save and review
+  </li>
+  <li>
+    <span>04</span>Export expenses
+  </li>
 </ol>
 
-## Maintaining the data contract
+## Design decisions
 
-A dependency update moved validation from Zod 3 to Zod 4. The same change added regression cases for nullable line items, omitted quantities, invalid values and unexpected provider fields. Updating the library included checking the receipt data it accepts and rejects.
+### Put the receipt beside the decision
 
-## Current boundaries
+On desktop, the image sits beside editable expense fields. On smaller screens, a keyboard-accessible switch moves between image and form. Zoom and rotation help the preparer inspect the source without leaving the task.
 
-The deployed upload entry was checked on 3 November 2026; the dependency and test changes were reviewed on 4 November. A fresh live extraction-to-export run has not been verified for this portfolio. The demo is not a permanent receipt archive.
+Each receipt carries its own save, discard and review actions. One batch toolbar handles selection and export. Samples and uploaded receipts use that same workflow.
+
+### Export the values the preparer approved
+
+I made review apply to a saved revision. Editing blocks export immediately. Save commits the correction; Mark reviewed approves it; Discard restores the saved values and their review status.
+
+CSV uses that reviewed revision. Dates, currency and decimal totals are validated before approval. Receipt IDs and filenames preserve the path back to the source, while original extraction and model confidence remain separate from human changes.
+
+### Let interrupted work continue
+
+Versioned browser storage retains images, pending edits, saved revisions and review state. Refresh returns to the same work. Interrupted requests remain manually retryable, and a mixed batch keeps the receipts that succeeded.
+
+I designed loading, validation, retry, stopping, storage recovery and image-error states around the next useful action. The preparer can keep moving through the task.
+
+## What I own after launch
+
+I own the release path as well as the screen. I maintain extraction limits, safe spreadsheet output, browser recovery, keyboard access and regression coverage as parts of the same product.
+
+I improved keyboard image inspection across browsers with explicit arrow-key panning, added a regression that uses actual keys, and verified the update on the live product.
+
+## A complete workflow, checked in production
+
+The decisive regression edits an already-reviewed total, blocks its export, refreshes with the correction pending, then saves and reviews it again. The downloaded CSV is checked against that approved value and the original receipt ID. JSON retains the original confidence.
+
+I also verify the deployed sample journey and real receipt extraction through an inspected CSV. That makes the live product, the interaction decisions and the maintained implementation available to explore together.

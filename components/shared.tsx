@@ -56,7 +56,7 @@ export function Preview({
         loading={priority ? "eager" : "lazy"}
         sizes="(max-width: 899px) 100vw, 45vw"
       />
-      {caption && <figcaption>Captured {project.verified}</figcaption>}
+      {caption && <figcaption>{project.caption ?? project.summary}</figcaption>}
     </figure>
   );
 }

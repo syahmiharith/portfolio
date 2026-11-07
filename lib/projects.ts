@@ -5,16 +5,25 @@ export type Project = {
   summary: string;
   subtitle: string;
   status: string;
+  role?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  updated?: string;
   live: string;
   code: string;
   media: string;
   alt: string;
+  caption?: string;
   verified: string;
   evidence: { label: string; url: string }[];
 };
 export const projects: readonly Project[] = [
   {
     slug: "splitflow",
+    seoTitle: "SplitFlow: Shared Expenses",
+    seoDescription:
+      "Explore the product and engineering decisions behind SplitFlow: shared expense allocation, payment claims, and group review before payment.",
+    updated: "2026-11-08",
     number: "01",
     title: "SplitFlow",
     summary: "Agree on shared costs before anyone pays.",
@@ -34,25 +43,48 @@ export const projects: readonly Project[] = [
   },
   {
     slug: "receipt-to-form",
+    updated: "2026-11-08",
     number: "02",
     title: "Receipt-to-Form",
-    summary: "Turn receipt images into editable records.",
-    subtitle: "Check uncertain fields against the original receipt.",
-    status: "Public demo",
+    summary: "Receipts in. Expenses ready.",
+    subtitle:
+      "A receipt-to-spreadsheet workflow I designed, built, and maintain—from upload to reviewed CSV export.",
+    role: "Product design · Full-stack engineering · Ongoing ownership",
+    seoTitle: "Receipt-to-Form: Receipt to CSV",
+    seoDescription:
+      "How I designed, built, and maintain Receipt-to-Form: receipt extraction, editable review, saved corrections, and CSV exports that match approved values.",
+    status: "Live product",
     live: "https://receipt-to-form-syahmiharith.vercel.app/",
     code: "https://github.com/syahmiharith/receipt-to-form",
-    media: "/images/receipt-to-form.jpg",
-    alt: "Receipt-to-Form upload screen with image format and file size guidance.",
-    verified: "2026-11-03",
+    media: "/images/receipt-to-form-expenses.jpg",
+    alt: "Two reviewed receipts with corrected totals and the CSV export ready in Receipt-to-Form.",
+    caption: "Reviewed receipts, ready for CSV export.",
+    verified: "2026-11-08",
     evidence: [
       {
-        label: "Dependency update and validation tests",
-        url: "https://github.com/syahmiharith/receipt-to-form/commit/556d3d93ad4be6bb8a889adfc025afa6310c8240",
+        label: "Receipt review, recovery and CSV workflow",
+        url: "https://github.com/syahmiharith/receipt-to-form/pull/23",
+      },
+      {
+        label: "Unified receipt workflow",
+        url: "https://github.com/syahmiharith/receipt-to-form/pull/24",
+      },
+      {
+        label: "Interface states and release verification",
+        url: "https://github.com/syahmiharith/receipt-to-form/pull/29",
+      },
+      {
+        label: "Keyboard image-viewer improvement",
+        url: "https://github.com/syahmiharith/receipt-to-form/pull/30",
       },
     ],
   },
   {
     slug: "inventory-request-system",
+    seoTitle: "Inventory Request System: Case Study",
+    seoDescription:
+      "The design and engineering behind inventory requests, approvals, stock fulfillment, and a history that keeps quantities consistent.",
+    updated: "2026-11-08",
     number: "03",
     title: "Inventory Request System",
     summary: "Request supplies. Approve demand. Track stock.",

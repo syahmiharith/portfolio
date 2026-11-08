@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { projects } from "@/lib/projects";
+import { projects, siteUrl } from "@/lib/projects";
 import { caseStudyStructuredData, serializeJsonLd } from "@/lib/seo";
 import { Sidebar } from "@/components/navigation";
 import { Header, Actions, Preview } from "@/components/shared";
@@ -32,6 +32,8 @@ export async function generateMetadata({
         alternates: { canonical: `/work/${slug}` },
         openGraph: {
           type: "article",
+          authors: [siteUrl],
+          modifiedTime: p.updated ?? p.verified,
           siteName: "Zulsyahmi Zulkefli",
           locale: "en_US",
           title: p.seoTitle ?? `${p.title}: ${p.summary}`,

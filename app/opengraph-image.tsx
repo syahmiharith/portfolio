@@ -1,47 +1,45 @@
 import { ImageResponse } from "next/og";
 export const alt =
-  "Zulsyahmi Zulkefli — Product engineer. Software for the everyday.";
+  "Zulsyahmi Zulkefli — Full-stack product engineer. Software for the everyday.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export default function Image() {
   return new ImageResponse(
-    (
+    <div
+      style={{
+        background: "white",
+        color: "#191b22",
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        padding: "64px",
+        justifyContent: "space-between",
+      }}
+    >
+      <div style={{ fontSize: 24 }}>
+        Zulsyahmi Zulkefli · Full-stack product engineer
+      </div>
       <div
         style={{
-          background: "white",
-          color: "#191b22",
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          padding: "64px",
-          justifyContent: "space-between",
+          fontSize: 100,
+          letterSpacing: -5,
+          lineHeight: 1,
+          fontFamily: "serif",
         }}
       >
-        <div style={{ fontSize: 24 }}>
-          Zulsyahmi Zulkefli · Product engineer
-        </div>
-        <div
-          style={{
-            fontSize: 100,
-            letterSpacing: -5,
-            lineHeight: 1,
-            fontFamily: "serif",
-          }}
-        >
-          Software for the everyday.
-        </div>
-        <div
-          style={{
-            borderTop: "1px solid #d4d5d8",
-            paddingTop: 24,
-            fontSize: 20,
-          }}
-        >
-          SplitFlow · Receipt-to-Form · Inventory Request System
-        </div>
+        Software for the everyday.
       </div>
-    ),
+      <div
+        style={{
+          borderTop: "1px solid #d4d5d8",
+          paddingTop: 24,
+          fontSize: 20,
+        }}
+      >
+        Receipt-to-Form · Inventory Request System · SplitFlow
+      </div>
+    </div>,
     size,
   );
 }

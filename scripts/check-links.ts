@@ -1,3 +1,4 @@
+import { fetchPublicPage } from "./public-page";
 import { projects, linkedin, github, siteUrl } from "../lib/projects";
 const base = process.env.SMOKE_URL;
 const urls = base
@@ -7,6 +8,7 @@ const urls = base
       `${base}/sitemap.xml`,
       `${base}/robots.txt`,
       `${base}/opengraph-image`,
+      `${base}/icon.svg`,
     ]
   : [
       ...projects.flatMap((p) => [
@@ -22,10 +24,7 @@ let failed = false;
 const documents = new Map<string, string>();
 for (const url of [...new Set(urls)]) {
   try {
-    const r = await fetch(url, {
-      redirect: "follow",
-      signal: AbortSignal.timeout(25000),
-    });
+    const r = await fetchPublicPage(url);
     const redirectedOutside = Boolean(
       base && new URL(r.url).origin !== new URL(base).origin,
     );

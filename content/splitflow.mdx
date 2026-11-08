@@ -6,7 +6,7 @@ SplitFlow puts item eligibility, participant responses and payment claims into o
 
 ## My role
 
-Agreement workflow, calculation guards and regression tests. The demo uses local state so visitors can inspect both organizer and participant perspectives.
+Agreement workflow, calculation guards and regression tests. The public prototype lets visitors inspect organizer and participant perspectives.
 
 ## Decisions
 
@@ -23,9 +23,15 @@ The dashboard makes unresolved claims an action for the organizer. A participant
 When an opt-out changes the remaining shares, the workflow requires reconfirmation. Acceptance of an earlier amount cannot stand in for acceptance of the new one.
 
 <ol className="workflow" aria-label="Agreement review workflow">
-  <li><span>01</span>Draft itemized costs</li>
-  <li><span>02</span>Calculate and review shares</li>
-  <li><span>03</span>Resolve claims before settlement</li>
+  <li>
+    <span>01</span>Draft itemized costs
+  </li>
+  <li>
+    <span>02</span>Calculate and review shares
+  </li>
+  <li>
+    <span>03</span>Resolve claims before settlement
+  </li>
 </ol>
 
 ## A change worth keeping
@@ -34,4 +40,6 @@ The readiness check previously looked only for claimed payments. The linked chan
 
 ## Current boundaries
 
-The deployed dashboard was checked on 3 November 2026; the implementation and test changes were reviewed on 4 November. This is a local-state prototype: authenticated identities, durable shared records and real payment transfers are outside the demonstrated scope.
+The public dashboard was rechecked on 8 November 2026. It still exposes a seeded prototype group and explicitly describes organizer confirmation of a payment claim; it does not verify a bank transfer. The linked implementation provides the evidence for the calculation and readiness rules.
+
+This case study describes that public prototype. Durable multi-user operation, authenticated participant journeys and real payment transfers are outside this verification scope.

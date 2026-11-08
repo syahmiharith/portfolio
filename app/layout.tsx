@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { siteUrl } from "@/lib/projects";
-import { siteDescription, siteTitle } from "@/lib/seo";
+import { siteDescription, siteTitle, deploymentRobots } from "@/lib/seo";
 const editorial = localFont({
   src: "../node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2",
   variable: "--font-editorial",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   authors: [{ name: "Zulsyahmi Zulkefli", url: siteUrl }],
   creator: "Zulsyahmi Zulkefli",
-  robots: { index: true, follow: true },
+  robots: deploymentRobots(),
   openGraph: {
     type: "website",
     siteName: "Zulsyahmi Zulkefli",

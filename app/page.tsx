@@ -16,15 +16,22 @@ export default function Home() {
       <main id="main" tabIndex={-1} className="main">
         <Header />
         <section className="hero" id="work">
+          <p className="hero-eyebrow">Full-stack product engineer</p>
           <h1>
             Software for the
             <br />
             everyday.
           </h1>
           <p>
-            I’m a product engineer. I design, build, and own products that make
-            everyday work simpler.
+            I design the workflow, build the interface and backend, and keep the
+            product working through releases and recovery.
           </p>
+          <div className="hero-availability">
+            <span>Available for full-time roles · March 2027</span>
+            <a href="#contact">
+              Let’s talk <ArrowUpRight size={15} aria-hidden="true" />
+            </a>
+          </div>
         </section>
         <div className="projects">
           {projects.map((p, i) => (
@@ -42,7 +49,10 @@ export default function Home() {
               <div className="project-grid">
                 <div className="project-copy">
                   <span className="square" aria-hidden />
-                  <h2 id={`${p.slug}-title`}>{p.title}</h2>
+                  <span className="project-status">{p.status}</span>
+                  <h2 id={`${p.slug}-title`}>
+                    <a href={`/work/${p.slug}`}>{p.title}</a>
+                  </h2>
                   <p>{p.summary}</p>
                   <Actions project={p} />
                 </div>
@@ -83,8 +93,10 @@ export default function Home() {
           <p>
             I shape the workflow, build the interface and the services behind
             it, and own the product through release and improvement. My work
-            connects product decisions to the details that make software useful:
-            clear interactions, recoverable work, and outputs people can use.
+            connects product decisions to clear interactions, recoverable work,
+            and outputs people can use. I work across Next.js, React, TypeScript
+            and PostgreSQL, with tests tied to the tasks the product must
+            protect.
           </p>
           <div className="about-meta">
             <span>Computer Science · Sungkyunkwan University</span>

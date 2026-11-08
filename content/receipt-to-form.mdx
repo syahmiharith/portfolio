@@ -9,10 +9,18 @@ I own the product from interaction design through full-stack implementation and 
 Next.js, React and TypeScript power the application. IndexedDB keeps receipts and corrections on the device; shared Redis limits protect live extraction.
 
 <ol className="workflow" aria-label="Receipt to spreadsheet workflow">
-  <li><span>01</span>Import receipts</li>
-  <li><span>02</span>Extract details</li>
-  <li><span>03</span>Correct in place</li>
-  <li><span>04</span>Export CSV or JSON</li>
+  <li>
+    <span>01</span>Import receipts
+  </li>
+  <li>
+    <span>02</span>Extract details
+  </li>
+  <li>
+    <span>03</span>Correct in place
+  </li>
+  <li>
+    <span>04</span>Export CSV or JSON
+  </li>
 </ol>
 
 ## Design decisions
@@ -46,3 +54,9 @@ I also addressed practical details revealed through runtime checks: wrapping lon
 I maintain the interface, extraction integration, shared request limits, storage recovery and release checks. Regression coverage follows actual tasks: correct a total, refresh, inspect the downloaded CSV, retry a mixed batch and verify that the successful receipt was never sent again. The checks also compare receipt IDs and original confidence across the journey.
 
 The live product and linked implementation show that ownership in practice: product decisions carried through to working interactions, recoverable state and usable output.
+
+## Try the workflow
+
+Start with the optional sample receipts, edit an expense beside its source image, and export the selected records. The linked retry release demonstrates the recovery decision: a failed extraction can be retried while successful receipts retain their corrections.
+
+The case study covers the live editor and linked regression evidence reviewed on 8 November 2026. It does not claim measured extraction accuracy, customer adoption or time savings.

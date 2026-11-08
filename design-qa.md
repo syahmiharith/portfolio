@@ -1,7 +1,22 @@
 # Design and release QA
 
-**Local visual result: passed with the documented evidence-driven differences below.**
-**Public release result: blocked on production access approval.**
+## Current release: 9 November 2026
+
+**Public release result: passed.** [PR #4](https://github.com/syahmiharith/portfolio/pull/4) added the visual case studies and compact public contribution feed; [PR #5](https://github.com/syahmiharith/portfolio/pull/5) corrected desktop portrait spacing. Production revision `ad9b8ebc4f8b5bef61fecb05587eebfa2a6d9330`, deployment `dpl_9vKKJ7W737Y6aFowCUFtV1M1W48W`, was Ready and verified on the public alias.
+
+- All three cases render three decisions paired with real product captures. All nine image URLs, section fragments, search metadata, sitemap, favicon, social image and unknown-route 404s pass live smoke checks.
+- Narrow mobile layouts were inspected at actual CSS widths of 269px and 327px; the tablet check used 645px after browser zoom. No horizontal overflow. The screenshot follows the summary before longer rationale on mobile. Desktop portrait explanations retain 32px gaps.
+- The public contribution endpoint returned `source: github` with the two verified external merged PRs. The live page showed automatic status, 85ms stagger delays and no obsolete contribution rows.
+- A local browser response fixture added a new contribution on the next scheduled foreground refresh without a page reload. Interception was cleared and real data restored. Reduced motion disables the entrance animation.
+- Typecheck, lint, ten tests, production build and both CI jobs passed. No adoption, time-saving, traffic, ranking or new Lighthouse result is claimed.
+
+References and operational behavior: [visual case studies and contribution feed](docs/VISUAL-CASE-STUDIES-2026-11-09.md).
+
+## Initial release record (historical)
+
+The remaining sections describe the initial implementation. Their production-access blocker and original contribution layout are superseded by the current release above.
+
+**Initial local visual result: passed with the documented differences below.**
 
 ## Visual authority and method
 

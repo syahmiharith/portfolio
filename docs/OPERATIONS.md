@@ -9,6 +9,10 @@
 5. Include only confirmed releases from other chats. Never turn a planned capability into a shipped claim. Keep unresolved limitations explicit in the story.
 6. Review every external link and the mobile image crop. Date all evidence.
 
+## Contribution feed
+
+For the public GitHub query, refresh cadence, fallback behavior and verification boundaries, see [the contribution feed notes](VISUAL-CASE-STUDIES-2026-11-09.md#automatic-contributions). No credentials or background job are required.
+
 ## Release
 
 The source repository is `syahmiharith/portfolio`. The initial Vercel release was uploaded through the authenticated Vercel connector because the GitHub integration could not access the new repository. Automatic push deployments are **not connected yet**. Until connected, deploy the reviewed source through Vercel and record its Git revision and deployment ID. Set `NEXT_PUBLIC_SITE_URL` to the stable production origin before building if it differs from the default. Check canonical metadata, sitemap and social image against that origin.

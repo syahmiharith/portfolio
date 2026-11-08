@@ -1,58 +1,48 @@
 ## Receipts in. Expenses ready.
 
-A receipt is the starting point. The useful result is an expense record someone can check, correct, and put straight into a spreadsheet.
-
-I built Receipt-to-Form around that complete task: capture the details, compare them with the image, approve the values, and export a CSV that matches the review. The product keeps each receipt and its corrections in one place from upload to download.
+Expense preparation starts with scattered receipt images and ends with a spreadsheet. I designed Receipt-to-Form to connect those two points: import a batch, correct the extracted details beside the source, and export the values on screen.
 
 ## What I designed and built
 
-I designed and built the receipt editor, saved revisions, review model, interruption recovery, and receipt-level CSV export. I own the workflow across the interface, extraction integration, persistence, and release verification.
+I own the product from interaction design through full-stack implementation and release. That includes the receipt editor, image inspection, batch processing, browser recovery, spreadsheet output and the tests that protect the workflow as it evolves.
 
-The implementation uses Next.js, React and TypeScript, with IndexedDB for browser recovery and shared Redis limits for live extraction.
+Next.js, React and TypeScript power the application. IndexedDB keeps receipts and corrections on the device; shared Redis limits protect live extraction.
 
 <ol className="workflow" aria-label="Receipt to spreadsheet workflow">
-  <li>
-    <span>01</span>Upload and extract
-  </li>
-  <li>
-    <span>02</span>Compare and correct
-  </li>
-  <li>
-    <span>03</span>Save and review
-  </li>
-  <li>
-    <span>04</span>Export expenses
-  </li>
+  <li><span>01</span>Import receipts</li>
+  <li><span>02</span>Extract details</li>
+  <li><span>03</span>Correct in place</li>
+  <li><span>04</span>Export CSV or JSON</li>
 </ol>
 
 ## Design decisions
 
-### Put the receipt beside the decision
+### Keep the source and the correction together
 
-On desktop, the image sits beside editable expense fields. On smaller screens, a keyboard-accessible switch moves between image and form. Zoom and rotation help the preparer inspect the source without leaving the task.
+An expanded receipt shows its fields, extracted items, notes and image in one place. Long merchant and item names grow to fit. Quantities, prices and receipt type use compact controls; currency supports search. Image zoom, rotation and keyboard panning help inspect the source, with an image/form switch on small screens.
 
-Each receipt carries its own save, discard and review actions. One batch toolbar handles selection and export. Samples and uploaded receipts use that same workflow.
+Corrections to expense fields and item names, quantities and prices save as they are entered. Valid selected receipts can be exported directly. Validation identifies the fields that need attention, while original extraction confidence stays separate from human edits.
 
-### Export the values the preparer approved
+### Make a batch resilient to partial failure
 
-I made review apply to a saved revision. Editing blocks export immediately. Save commits the correction; Mark reviewed approves it; Discard restores the saved values and their review status.
+People can upload up to five images or open a ZIP and choose the images inside. Optional samples use the same queue and editor. Two extraction slots process the batch, and each card reflects its actual request state through a compact status and moving bottom border.
 
-CSV uses that reviewed revision. Dates, currency and decimal totals are validated before approval. Receipt IDs and filenames preserve the path back to the source, while original extraction and model confidence remain separate from human changes.
+A failed receipt can be retried on its own or through Extract. Successful receipts keep their values and corrections. Stop finishes active requests and leaves the rest queued; refresh restores saved work and makes interrupted requests retryable.
 
-### Let interrupted work continue
+### Keep the output connected to the receipt
 
-Versioned browser storage retains images, pending edits, saved revisions and review state. Refresh returns to the same work. Interrupted requests remain manually retryable, and a mixed batch keeps the receipts that succeeded.
+One Export action offers CSV for spreadsheets and JSON for provenance. CSV contains one row per valid selected receipt, with current expense details and line items. Receipt IDs and source filenames connect each row to its image. JSON also retains the original extraction and confidence.
 
-I designed loading, validation, retry, stopping, storage recovery and image-error states around the next useful action. The preparer can keep moving through the task.
+Dates, currency and totals are validated before export. Spreadsheet text cells are protected against formula execution. Browser-saved images and corrections expire after seven days without an edit and can be deleted from the app.
 
-## What I own after launch
+## What I improved after launch
 
-I own the release path as well as the screen. I maintain extraction limits, safe spreadsheet output, browser recovery, keyboard access and regression coverage as parts of the same product.
+I refined the product into one consistent workflow: optional samples and uploads share the same editor, corrections save automatically, and export sits in a single batch toolbar. I replaced separate download controls with a compact, keyboard-accessible format menu and kept Extract available while receipts still need attention.
 
-I improved keyboard image inspection across browsers with explicit arrow-key panning, added a regression that uses actual keys, and verified the update on the live product.
+I also addressed practical details revealed through runtime checks: wrapping long names on mobile, removing repeated notes, keeping currency searchable, supporting ZIP selection, and preserving successful work when another extraction fails.
 
-## A complete workflow, checked in production
+## What I own in production
 
-The decisive regression edits an already-reviewed total, blocks its export, refreshes with the correction pending, then saves and reviews it again. The downloaded CSV is checked against that approved value and the original receipt ID. JSON retains the original confidence.
+I maintain the interface, extraction integration, shared request limits, storage recovery and release checks. Regression coverage follows actual tasks: correct a total, refresh, inspect the downloaded CSV, retry a mixed batch and verify that the successful receipt was never sent again. The checks also compare receipt IDs and original confidence across the journey.
 
-I also verify the deployed sample journey and real receipt extraction through an inspected CSV. That makes the live product, the interaction decisions and the maintained implementation available to explore together.
+The live product and linked implementation show that ownership in practice: product decisions carried through to working interactions, recoverable state and usable output.

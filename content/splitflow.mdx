@@ -1,45 +1,43 @@
-## The problem
+import { Decision } from "@/components/case-decision";
 
-An organizer fronts a group expense, then discovers that someone skipped an item, another person opted out, and a claimed transfer still needs checking. The total is simple; getting everyone to agree on their share is the work.
+<h2 id="overview">Agreement before the organizer pays</h2>
 
-SplitFlow puts item eligibility, participant responses and payment claims into one review flow.
-
-## My role
-
-Agreement workflow, calculation guards and regression tests. The public prototype lets visitors inspect organizer and participant perspectives.
-
-## Decisions
-
-### Calculate every share in code
-
-Parsing an expense produces a draft. Typed calculation logic assigns item costs, rounds KRW amounts and reconciles the shares with the total. Splitting ₩10,000 three ways must still allocate all ₩10,000, with the remainder assigned consistently.
-
-### Keep disputed money out of readiness
-
-The dashboard makes unresolved claims an action for the organizer. A participant saying “I paid” cannot make the group ready to settle. The readiness logic checks both claimed and disputed records.
-
-### Reconfirm when the agreement changes
-
-When an opt-out changes the remaining shares, the workflow requires reconfirmation. Acceptance of an earlier amount cannot stand in for acceptance of the new one.
+An item exclusion changes everyone's share. A claimed transfer still needs checking. SplitFlow puts costs, participant responses and payment claims into one review flow. My work covers the agreement workflow, calculation guards and regression tests.
 
 <ol className="workflow" aria-label="Agreement review workflow">
-  <li>
-    <span>01</span>Draft itemized costs
-  </li>
-  <li>
-    <span>02</span>Calculate and review shares
-  </li>
-  <li>
-    <span>03</span>Resolve claims before settlement
-  </li>
+  <li><span>01</span>Draft itemized costs</li>
+  <li><span>02</span>Calculate and review shares</li>
+  <li><span>03</span>Resolve claims before settlement</li>
 </ol>
 
-## A change worth keeping
+<h2 id="decisions">Three decisions, in the product</h2>
 
-The readiness check previously looked only for claimed payments. The linked change includes disputed payments too, and adds regression cases for conflicting claims, rounding, changed shares and non-integer money. These rules can be inspected in the implementation and tests, rather than inferred from the interface.
+<Decision number="01" title="A payment claim is a review task" summary="Saying “I paid” cannot make a group ready to settle." screen="splitflow-readiness">
+
+The organizer sees the unresolved claim and can confirm or dispute it. Readiness checks both claimed and disputed records. Participant notes remain distinct from verified money: this prototype does not perform bank verification.
+
+</Decision>
+
+<Decision number="02" title="Calculate the final share in code" summary="A parsed expense is a draft. Typed logic owns the amounts." screen="splitflow-shares">
+
+Item eligibility, exclusions and rounding are explicit. Splitting ₩10,000 three ways must still allocate all ₩10,000, with the remainder assigned consistently. Each participant can inspect the included items, fronted amount and net balance.
+
+</Decision>
+
+<Decision number="03" title="A changed share needs fresh agreement" summary="Accepting an earlier amount cannot approve the new one." screen="splitflow-overview">
+
+When an opt-out changes remaining shares, the workflow requires reconfirmation. Agreement state and settlement readiness stay separate, so a draft, waiting response or unresolved claim remains visible as work to do.
+
+The capture shows the group overview and its agreement states; the calculation and reconfirmation rules are supported by the linked tests.
+
+</Decision>
+
+<h2 id="engineering">Build, maintain, verify</h2>
+
+### A change worth keeping
+
+The readiness check previously looked only for claimed payments. The linked change includes disputed payments too, with regression cases for conflicting claims, rounding, changed shares and non-integer money. Those rules can be inspected in the implementation and tests rather than inferred from a screenshot.
 
 ## Current boundaries
 
-The public dashboard was rechecked on 8 November 2026. It still exposes a seeded prototype group and explicitly describes organizer confirmation of a payment claim; it does not verify a bank transfer. The linked implementation provides the evidence for the calculation and readiness rules.
-
-This case study describes that public prototype. Durable multi-user operation, authenticated participant journeys and real payment transfers are outside this verification scope.
+The public prototype exposes a seeded group and organizer/participant perspectives. These product captures were taken on 9 November 2026; the public dashboard was rechecked on 8 November. No bank transfer is verified. Durable multi-user operation, authenticated participant journeys and real payment transfers remain outside this case study's verification scope.

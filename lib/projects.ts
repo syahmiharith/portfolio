@@ -41,7 +41,7 @@ export const projects: readonly Project[] = [
     seoTitle: "Receipt-to-Form: Receipt Processing Case Study",
     seoDescription:
       "How I built a receipt-to-CSV workflow with editable expenses, failed-only retries, browser recovery and spreadsheet-safe export.",
-    updated: "2026-11-08",
+    updated: "2026-11-09",
     verified: "2026-11-08",
     live: "https://receipt-to-form-syahmiharith.vercel.app/",
     code: "https://github.com/syahmiharith/receipt-to-form",
@@ -88,7 +88,7 @@ export const projects: readonly Project[] = [
     seoTitle: "Inventory Requests: Approval to Stock Issuance",
     seoDescription:
       "How I developed an isolated inventory demo with multi-item requests, shortage recovery, atomic stock issuance and verified release checks.",
-    updated: "2026-11-08",
+    updated: "2026-11-09",
     verified: "2026-11-08",
     live: "https://inventory-request-system-syahmiharith.vercel.app/",
     code: "https://github.com/syahmiharith/inventory-request-system",
@@ -138,7 +138,7 @@ export const projects: readonly Project[] = [
     seoTitle: "SplitFlow: Shared Expenses & Group Agreement",
     seoDescription:
       "A product-engineering case study in deterministic expense splits, participant reconfirmation and payment-claim review before settlement.",
-    updated: "2026-11-08",
+    updated: "2026-11-09",
     verified: "2026-11-08",
     live: "https://splitflow-xi.vercel.app/",
     code: "https://github.com/syahmiharith/splitflow",

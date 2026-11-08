@@ -1,6 +1,8 @@
 import { fetchPublicPage } from "./public-page";
 import { projects, linkedin, github, siteUrl } from "../lib/projects";
+import { caseScreens } from "../lib/case-screens";
 const base = process.env.SMOKE_URL;
+const imagePaths = new Set(Object.keys(caseScreens).map((screen) => `/images/case-studies/${screen}.webp`));
 const urls = base
   ? [
       base,
@@ -9,6 +11,8 @@ const urls = base
       `${base}/robots.txt`,
       `${base}/opengraph-image`,
       `${base}/icon.svg`,
+      `${base}/api/contributions`,
+      ...[...imagePaths].map((path) => `${base}${path}`),
     ]
   : [
       ...projects.flatMap((p) => [
@@ -111,6 +115,7 @@ if (base) {
         new URL(path, base),
       );
       if (target.origin !== new URL(base).origin) continue;
+      if (imagePaths.has(target.pathname) && !target.hash) continue;
       const destination = documents.get(target.pathname);
       if (
         !destination ||

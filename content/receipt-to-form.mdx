@@ -1,62 +1,54 @@
-## Receipts in. Expenses ready.
+import { Decision } from "@/components/case-decision";
 
-Expense preparation starts with scattered receipt images and ends with a spreadsheet. I designed Receipt-to-Form to connect those two points: import a batch, correct the extracted details beside the source, and export the values on screen.
+<h2 id="overview">From receipt images to usable expenses</h2>
+
+Expense preparation starts with scattered images and ends with a spreadsheet. I designed one workflow for importing a batch, correcting its details beside the source, and exporting the values on screen.
+
+<ol className="workflow" aria-label="Receipt to spreadsheet workflow">
+  <li><span>01</span>Import receipts</li>
+  <li><span>02</span>Extract details</li>
+  <li><span>03</span>Correct in place</li>
+  <li><span>04</span>Export CSV or JSON</li>
+</ol>
+
+<h2 id="decisions">Three decisions, in the product</h2>
+
+<Decision number="01" title="Keep the source beside the correction" summary="Inspect the image and edit the expense in the same place." screen="receipt-correction">
+
+Corrections save as they are entered. Image zoom, rotation and keyboard panning support inspection; small screens switch between image and form. Long merchant and item names grow to fit, while quantities, prices and searchable currency stay compact.
+
+Original extraction confidence stays separate from human edits. A correction does not become a new confidence score.
+
+</Decision>
+
+<Decision number="02" title="Keep successful work when a batch fails" summary="Each receipt has its own state. Retrying a failure must preserve the others." screen="receipt-batch">
+
+Uploads, ZIP selection and optional samples use the same queue, with up to five images and two extraction slots. Failed-only retries retain successful values and corrections. Stop finishes active requests and leaves the rest queued; refresh restores saved work and makes interrupted requests retryable.
+
+The capture shows two ready samples. Failure recovery is demonstrated by the linked regression release below.
+
+</Decision>
+
+<Decision number="03" title="Export the values people can see" summary="One menu exports the selected, valid expenses as CSV or JSON." screen="receipt-export">
+
+CSV gives each receipt one row with current expense details and line items. Receipt IDs and source filenames connect the output to its image; JSON also retains original extraction and confidence. Validation flags missing dates, currency and totals before export, and spreadsheet text is protected against formula execution.
+
+</Decision>
+
+<h2 id="engineering">Build, maintain, verify</h2>
 
 ## What I designed and built
 
-I own the product from interaction design through full-stack implementation and release. That includes the receipt editor, image inspection, batch processing, browser recovery, spreadsheet output and the tests that protect the workflow as it evolves.
+I own the receipt editor, image inspection, batch processing, browser recovery, extraction integration and spreadsheet output. Next.js, React and TypeScript power the application. IndexedDB keeps images and corrections on the device; shared Redis limits protect live extraction. Saved work expires after seven days without an edit and can be deleted from the app.
 
-Next.js, React and TypeScript power the application. IndexedDB keeps receipts and corrections on the device; shared Redis limits protect live extraction.
+### Improvements carried through to release
 
-<ol className="workflow" aria-label="Receipt to spreadsheet workflow">
-  <li>
-    <span>01</span>Import receipts
-  </li>
-  <li>
-    <span>02</span>Extract details
-  </li>
-  <li>
-    <span>03</span>Correct in place
-  </li>
-  <li>
-    <span>04</span>Export CSV or JSON
-  </li>
-</ol>
+Samples and uploads now share an editor, corrections save automatically, and one batch toolbar replaces separate download controls. Runtime checks also led to mobile wrapping fixes, searchable currency, ZIP selection and removal of repeated notes.
 
-## Design decisions
+### Checks tied to real tasks
 
-### Keep the source and the correction together
+Regression checks correct a total, refresh, inspect the downloaded CSV, and retry a mixed batch without resending the successful receipt. They compare receipt IDs and original confidence across the journey. The linked releases provide the implementation evidence.
 
-An expanded receipt shows its fields, extracted items, notes and image in one place. Long merchant and item names grow to fit. Quantities, prices and receipt type use compact controls; currency supports search. Image zoom, rotation and keyboard panning help inspect the source, with an image/form switch on small screens.
+### Verification scope
 
-Corrections to expense fields and item names, quantities and prices save as they are entered. Valid selected receipts can be exported directly. Validation identifies the fields that need attention, while original extraction confidence stays separate from human edits.
-
-### Make a batch resilient to partial failure
-
-People can upload up to five images or open a ZIP and choose the images inside. Optional samples use the same queue and editor. Two extraction slots process the batch, and each card reflects its actual request state through a compact status and moving bottom border.
-
-A failed receipt can be retried on its own or through Extract. Successful receipts keep their values and corrections. Stop finishes active requests and leaves the rest queued; refresh restores saved work and makes interrupted requests retryable.
-
-### Keep the output connected to the receipt
-
-One Export action offers CSV for spreadsheets and JSON for provenance. CSV contains one row per valid selected receipt, with current expense details and line items. Receipt IDs and source filenames connect each row to its image. JSON also retains the original extraction and confidence.
-
-Dates, currency and totals are validated before export. Spreadsheet text cells are protected against formula execution. Browser-saved images and corrections expire after seven days without an edit and can be deleted from the app.
-
-## What I improved after launch
-
-I refined the product into one consistent workflow: optional samples and uploads share the same editor, corrections save automatically, and export sits in a single batch toolbar. I replaced separate download controls with a compact, keyboard-accessible format menu and kept Extract available while receipts still need attention.
-
-I also addressed practical details revealed through runtime checks: wrapping long names on mobile, removing repeated notes, keeping currency searchable, supporting ZIP selection, and preserving successful work when another extraction fails.
-
-## What I own in production
-
-I maintain the interface, extraction integration, shared request limits, storage recovery and release checks. Regression coverage follows actual tasks: correct a total, refresh, inspect the downloaded CSV, retry a mixed batch and verify that the successful receipt was never sent again. The checks also compare receipt IDs and original confidence across the journey.
-
-The live product and linked implementation show that ownership in practice: product decisions carried through to working interactions, recoverable state and usable output.
-
-## Try the workflow
-
-Start with the optional sample receipts, edit an expense beside its source image, and export the selected records. The linked retry release demonstrates the recovery decision: a failed extraction can be retried while successful receipts retain their corrections.
-
-The case study covers the live editor and linked regression evidence reviewed on 8 November 2026. It does not claim measured extraction accuracy, customer adoption or time savings.
+Product screens use synthetic samples captured on 9 November 2026. The editor and linked regression evidence were reviewed on 8 November. No measured extraction accuracy, customer adoption or time-saving result is claimed.

@@ -3,6 +3,7 @@ import { Sidebar } from "@/components/navigation";
 import { Header, Actions, Preview } from "@/components/shared";
 import { homeStructuredData, serializeJsonLd } from "@/lib/seo";
 import { projects, linkedin, github } from "@/lib/projects";
+import { ContributionFeed } from "@/components/contribution-feed";
 export default function Home() {
   return (
     <>
@@ -61,33 +62,6 @@ export default function Home() {
             </section>
           ))}
         </div>
-        <section className="lower" aria-labelledby="contributions">
-          <h2 id="contributions">Open source.</h2>
-          <a
-            className="contribution"
-            href="https://github.com/career-ops-hq/career-ops/pull/41"
-          >
-            <span>
-              <strong>Codex workflow support</strong>
-              <small>career-ops · Pull request #41</small>
-            </span>
-            <span>
-              Merged <ArrowUpRight size={18} />
-            </span>
-          </a>
-          <a
-            className="contribution"
-            href="https://github.com/career-ops-hq/career-ops/pull/444"
-          >
-            <span>
-              <strong>Structured machine summaries</strong>
-              <small>career-ops · Pull request #444</small>
-            </span>
-            <span>
-              Merged <ArrowUpRight size={18} />
-            </span>
-          </a>
-        </section>
         <section className="lower about" id="about">
           <h2>Designed. Built. Owned.</h2>
           <p>
@@ -103,6 +77,7 @@ export default function Home() {
             <span>Expected graduation · February 2027</span>
             <span>Available for full-time roles · March 2027</span>
           </div>
+          <ContributionFeed />
         </section>
         <section className="lower contact" id="contact">
           <h2>Let’s build something useful.</h2>

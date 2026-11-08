@@ -278,34 +278,6 @@ img {
   color: var(--muted);
   font-size: 17px;
 }
-.contribution {
-  padding: 23px 0;
-  border-top: 1px solid var(--rule);
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-}
-.contribution:first-of-type {
-  margin-top: 42px;
-}
-.contribution:last-child {
-  border-bottom: 1px solid var(--rule);
-}
-.contribution strong {
-  display: block;
-  font-weight: 400;
-  font-size: 19px;
-}
-.contribution small {
-  color: var(--muted);
-  font-size: 12px;
-}
-.contribution > span:last-child {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-size: 12px;
-}
 .about > p + p {
   margin-top: 22px;
 }
@@ -626,12 +598,6 @@ footer {
   }
   .lower > p {
     font-size: 15px;
-  }
-  .contribution strong {
-    font-size: 16px;
-  }
-  .contribution > span:last-child {
-    font-size: 10px;
   }
   .about-meta {
     font-size: 12px;

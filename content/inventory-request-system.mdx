@@ -1,37 +1,68 @@
-## The problem
+## A stock shortage should be recoverable
 
-An approved request is a promise to supply something. Stock should change when the items are actually fulfilled, and the record needs to explain what happened if fulfillment fails.
+An administrator can approve a request before the supplies are available. That creates a product problem as well as a database problem: the interface must explain what approval means, show what is short, and help the operator finish the same request after a delivery.
 
-## My role
+I developed the existing inventory foundation into a public demo of that complete journey. Visitors get a private, seeded workspace and can try both employee and administrator roles without changing another visitor's stock.
 
-Request workflow, inventory interface and test setup. Historical project attribution remains in the repository.
+## What I built
 
-## Decisions
+I worked across the request workflow, interface, transactional backend, tests and release operations. The result connects Dashboard, Inventory and Requests: request two supplies, review that exact request as the demo administrator, record missing stock, issue the request, and inspect the resulting history. The repository retains the project's original attribution.
 
-### Separate approval from fulfillment
-
-Approval records the requested quantities without deducting or reserving stock. Fulfillment checks availability again. This allows demand to be approved while making the later stock check essential; approval alone does not guarantee supply.
-
-### Commit the whole request together
-
-The fulfillment service updates the request, deducts its items and writes its audit entry inside one database transaction. If the second item is unavailable, the first deduction must roll back too.
-
-The integration test makes that concrete: a request for three paper reams and nine ink units fails when only eight ink units remain. Both original stock counts must survive unchanged.
-
-### Show what the number means
-
-The inventory table puts stock on hand, reserved quantities and stock-health indicators together. Operators can distinguish a physical count from what is available to fulfill.
-
-<ol className="workflow" aria-label="Inventory fulfillment workflow">
-  <li><span>01</span>Approve demand</li>
-  <li><span>02</span>Recheck available stock</li>
-  <li><span>03</span>Commit fulfillment or roll back</li>
+<ol className="workflow" aria-label="Inventory request and recovery workflow">
+  <li>
+    <span>01</span>Request supplies
+  </li>
+  <li>
+    <span>02</span>Approve demand
+  </li>
+  <li>
+    <span>03</span>Receive missing stock
+  </li>
+  <li>
+    <span>04</span>Issue and inspect history
+  </li>
 </ol>
 
-## Keeping checks reproducible
+## Three decisions that shape the product
 
-The test suite covers insufficient stock, repeat fulfillment and partial-update rollback. CI provisions PostgreSQL, applies migrations and runs integration and browser checks. A maintenance change pins the runner to Ubuntu 24.04 for Playwright compatibility instead of following a moving OS image.
+### Approval is not a stock movement
+
+Approval leaves stock available to other requests. The interface uses **Approved** and **Issued** consistently, and shows on-hand, held-aside, available, requested and short quantities before issuance. An independent hold example makes the difference between physical stock and available stock visible.
+
+This deliberately avoids promising that approval guarantees supply. Issuance rechecks availability against the current database state.
+
+### A shortage returns the operator to the same request
+
+The featured example requests three reams of paper and three boxes of pens. Paper starts at twelve reams; pens start at one box. The request is short by two boxes of pens.
+
+The operator can record two boxes received with a delivery reference, return to the request and issue it. The expected result is nine paper reams and zero pen boxes, with the receipt and issuance recorded in history. A failed attempt must leave the whole request approved and its stock unchanged.
+
+The role handoff opens the exact request just submitted. Filters and list focus are restored when returning from a detail panel. These details keep shortage recovery inside one task.
+
+### Commit the request as one transaction
+
+The service checks status and lines inside the transaction and processes items in a stable order. Deductions, status, movements and history commit together. If a later line is short, earlier deductions roll back.
+
+Creation, receipt and issuance use idempotency keys. Retrying after a committed write loses its response returns the existing result instead of repeating a receipt or deducting stock twice. PostgreSQL tests cover later-line rollback, requests competing for the last units, concurrent issuance and replay.
+
+## Turn stock numbers into decisions
+
+The dashboard shows open workload, stock availability and seven calendar days of issuance activity. Each number has a defined scope: stock health counts distinct supplies after holds, while request readiness is checked per request. Shared stock is rechecked when issued.
+
+Inventory and Requests use graphical summaries that open the matching records. This makes the charts an entry point into the work. I avoided summing incompatible units or presenting seeded activity as business growth.
+
+## Make a public demo safe to explore
+
+Each visitor receives a server-validated opaque HttpOnly session tied to a workspace and seeded identities. Relationships, reads and writes are scoped to that workspace. Sessions expire after 24 hours, with reset, bounded activity rates and expired-data cleanup.
+
+Preview uses a separate private schema and restricted database login on the existing free Supabase project. The preview login was checked against production and legacy tables: access was denied. This separates data permissions while sharing infrastructure and free-tier quotas.
+
+## Maintain the whole experience
+
+The interface evolved into one shared visual system, including custom dropdowns, a calendar, a compact account menu and problem reporting. Adding the calendar exposed an important interaction: Escape should close the date selection while preserving the request form behind it. A browser regression check protects that behavior.
+
+Releases pass type checking, lint, component checks, PostgreSQL integration tests, browser workflows and a production build. The deployed journey and mobile layouts were checked again on 8 November 2026. Operational work includes expired-workspace cleanup, monitoring and backup/restore checks; implementation and release evidence are linked below.
 
 ## Current boundaries
 
-The deployed inventory view was checked on 3 November 2026; the service, tests and CI configuration were reviewed on 4 November. The public demo uses simulated roles and seeded data. This review did not change shared stock or verify a complete live approval-to-fulfillment run.
+This is a deployed operational demo with synthetic data and simulated employee/admin roles. It demonstrates the workflow and safeguards; it is not evidence of adoption by an inventory team. Unfamiliar-visitor trials and an inventory-operator follow-up remain the next validation step. I make no claim here about time saved, customer usage or business impact.

@@ -1,13 +1,22 @@
-import { github, linkedin, siteUrl, type Project } from "./projects";
+import { github, linkedin, siteUrl, projects, type Project } from "./projects";
 
-export const siteTitle = "Zulsyahmi Zulkefli | Product Engineer";
+export const siteTitle = "Zulsyahmi Zulkefli | Full-Stack Product Engineer";
 export const siteDescription =
-  "Zulsyahmi Zulkefli designs, builds, and maintains software products. Explore live projects, product decisions, and end-to-end engineering.";
+  "Full-stack product engineer building with Next.js, TypeScript and PostgreSQL. Explore live products, case studies and verified engineering decisions.";
 const person = {
   "@type": "Person",
   "@id": `${siteUrl}/#person`,
   name: "Zulsyahmi Zulkefli",
-  jobTitle: "Product Engineer",
+  jobTitle: "Full-Stack Product Engineer",
+  description:
+    "Designs, builds and maintains web products from workflow to release.",
+  knowsAbout: [
+    "Product design",
+    "Next.js",
+    "TypeScript",
+    "PostgreSQL",
+    "Software testing",
+  ],
   url: siteUrl,
   sameAs: [github, linkedin],
 };
@@ -30,8 +39,23 @@ export const homeStructuredData = {
       description: siteDescription,
       mainEntity: person,
     },
+    {
+      "@type": "ItemList",
+      name: "Selected product engineering work",
+      itemListElement: projects.map((project, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: project.title,
+        url: `${siteUrl}/work/${project.slug}`,
+      })),
+    },
   ],
 };
+export function deploymentRobots(environment = process.env.VERCEL_ENV) {
+  return environment === "preview"
+    ? { index: false, follow: false }
+    : { index: true, follow: true };
+}
 export function caseStudyStructuredData(project: Project) {
   const url = `${siteUrl}/work/${project.slug}`;
   return {
@@ -46,6 +70,8 @@ export function caseStudyStructuredData(project: Project) {
         description: project.seoDescription ?? project.subtitle,
         image: new URL(project.media, siteUrl).href,
         author: person,
+        inLanguage: "en",
+        mainEntityOfPage: url,
         dateModified: project.updated ?? project.verified,
         citation: project.evidence.map((e) => e.url),
         about: {

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { projects } from "@/lib/projects";
 export function Sidebar({ current }: { current?: string }) {
-  const [active, setActive] = useState(current || "splitflow");
+  const [active, setActive] = useState(current || projects[0].slug);
   const art = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (current) return;
@@ -14,7 +14,10 @@ export function Sidebar({ current }: { current?: string }) {
       let selected = projects[0].slug;
       for (const project of projects) {
         const section = document.getElementById(project.slug);
-        if (section && section.getBoundingClientRect().top <= innerHeight * 0.45) {
+        if (
+          section &&
+          section.getBoundingClientRect().top <= innerHeight * 0.45
+        ) {
           selected = project.slug;
         }
       }
@@ -86,7 +89,9 @@ export function Sidebar({ current }: { current?: string }) {
           <a
             key={p.slug}
             href={current ? `/#${p.slug}` : `#${p.slug}`}
-            aria-current={(current || active) === p.slug ? "location" : undefined}
+            aria-current={
+              (current || active) === p.slug ? "location" : undefined
+            }
           >
             <span>{p.number}</span>
             <span>{p.title}</span>

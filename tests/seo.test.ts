@@ -5,6 +5,7 @@ import {
   homeStructuredData,
   caseStudyStructuredData,
   serializeJsonLd,
+  deploymentRobots,
 } from "../lib/seo";
 
 test("portfolio structured data identifies the author and each canonical case study", () => {
@@ -28,4 +29,24 @@ test("structured data cannot break out of its script element", () => {
   const encoded = serializeJsonLd(value);
   assert.equal(encoded.includes("<"), false);
   assert.deepEqual(JSON.parse(encoded), value);
+});
+
+test("previews cannot advertise themselves as indexable production pages", () => {
+  assert.deepEqual(deploymentRobots("preview"), {
+    index: false,
+    follow: false,
+  });
+  assert.deepEqual(deploymentRobots("production"), {
+    index: true,
+    follow: true,
+  });
+});
+test("the public work index links to real, canonical case-study routes", () => {
+  const index = homeStructuredData["@graph"].find(
+    (entry) => entry["@type"] === "ItemList",
+  );
+  assert.deepEqual(
+    index?.itemListElement?.map((item) => item.url),
+    projects.map((project) => `${siteUrl}/work/${project.slug}`),
+  );
 });

@@ -22,15 +22,28 @@ export function Actions({
 }) {
   return (
     <div className="actions">
-      <a href={project.live}>
+      <a
+        href={project.live}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Try ${project.title} (opens in a new tab)`}
+      >
         Try product <ArrowUpRight aria-hidden size={18} />
       </a>
       {story && (
-        <Link href={`/work/${project.slug}`}>
-          Read story <ArrowUpRight aria-hidden size={18} />
+        <Link
+          href={`/work/${project.slug}`}
+          aria-label={`Read the ${project.title} case study`}
+        >
+          Case study <ArrowUpRight aria-hidden size={18} />
         </Link>
       )}
-      <a href={project.code}>
+      <a
+        href={project.code}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`View ${project.title} source code (opens in a new tab)`}
+      >
         View code <ArrowUpRight aria-hidden size={18} />
       </a>
     </div>
@@ -54,7 +67,11 @@ export function Preview({
         height={720}
         fetchPriority={priority ? "high" : undefined}
         loading={priority ? "eager" : "lazy"}
-        sizes="(max-width: 899px) 100vw, 45vw"
+        sizes={
+          caption
+            ? "(max-width: 899px) 100vw, 70vw"
+            : "(max-width: 899px) 100vw, 45vw"
+        }
       />
       {caption && <figcaption>{project.caption ?? project.summary}</figcaption>}
     </figure>

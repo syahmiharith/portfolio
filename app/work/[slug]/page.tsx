@@ -91,6 +91,14 @@ export default async function Story({
           </div>
           <Actions project={p} story={false} />
         </div>
+        <nav className="case-nav" aria-label="Case study sections">
+          <a href="#overview">The workflow</a>
+          <a href="#decisions">Key decisions</a>
+          <a href="#engineering">Build & maintain</a>
+          <a href="#evidence">Evidence</a>
+        </nav>
+        <Preview project={p} priority caption />
+        <p className="verification-note">{p.verification}</p>
         <dl className="case-facts">
           <div>
             <dt>My contribution</dt>
@@ -115,14 +123,12 @@ export default async function Story({
             <span className="sr-only"> (opens in a new tab)</span>
           </a>
         </div>
-        <Preview project={p} priority caption />
-        <p className="verification-note">{p.verification}</p>
-        <article className="prose">
+        <article className="prose case-prose">
           <Content />
           {p.evidence.some((e) => e.url !== `${p.code}#readme`) && (
             <>
-              <h2>Explore the implementation</h2>
-              <ul>
+              <h2 id="evidence">Explore the implementation</h2>
+              <ul className="case-evidence">
                 {p.evidence
                   .filter((e) => e.url !== `${p.code}#readme`)
                   .map((e) => (

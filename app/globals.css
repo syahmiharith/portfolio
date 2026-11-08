@@ -863,7 +863,7 @@ footer {
 .decision-figure img { display: block; width: 100%; height: auto; }
 .decision-figure figcaption { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; font-size: 11px; color: var(--muted); line-height: 1.6; padding-top: 12px; }
 .decision-figure figcaption a { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; min-height: 44px; margin-top: -12px; flex-shrink: 0; }
-.case-decision--portrait { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.case-decision--portrait { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: min-content min-content 1fr; gap: 32px; align-items: start; }
 .case-decision--portrait .decision-heading { grid-column: 1; grid-row: 1; }
 .case-prose .case-decision--portrait .decision-summary { grid-column: 1; grid-row: 2; }
 .case-decision--portrait .decision-rationale { grid-column: 1; grid-row: 3; }
@@ -892,7 +892,7 @@ footer {
 @media (max-width: 599px) {
   .story .story-header h1 { font-size: 54px; }
   .case-nav { gap: 0 18px; font-size: 11px; padding-bottom: 16px; }
-  .case-decision { grid-template-columns: 1fr; gap: 20px; }
+  .case-decision { grid-template-columns: 1fr; grid-template-rows: none; gap: 20px; }
   .decision-heading, .case-decision--portrait .decision-heading { grid-column: 1; grid-row: 1; }
   .case-prose .decision-summary, .case-prose .case-decision--portrait .decision-summary { grid-column: 1; grid-row: 2; }
   .decision-figure, .case-decision--portrait .decision-figure { grid-column: 1; grid-row: 3; }

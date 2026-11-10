@@ -154,7 +154,7 @@ export const projects: readonly Project[] = [
     ],
   },
 ];
-export const linkedin = "https://www.linkedin.com/in/zsyhmizlkfli/";
+export const linkedin = "https://www.linkedin.com/in/zsyahmi/";
 export const github = "https://github.com/syahmiharith";
 export const siteUrl = (
   process.env.NEXT_PUBLIC_SITE_URL ||
